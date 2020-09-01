@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FasttrackIT_Project.Models
 {
-    public class HeaderInfo
+    public class OfferHeader
     {
         [Key]
         [Required]
         public int Id { get; set; }
 
         [Required]
-        public int ClientId { get; set; }
+        [ForeignKey("ClientId")]
+        public Client Client { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -25,5 +25,7 @@ namespace FasttrackIT_Project.Models
 
         [DataType(DataType.Date)]
         public DateTime? ExpiryDate { get; set; }
+
+        public List<OfferDetail> Details { get; set; } = new List<OfferDetail>();
     }
 }

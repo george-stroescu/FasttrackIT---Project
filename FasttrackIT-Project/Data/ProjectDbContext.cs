@@ -18,8 +18,8 @@ namespace FasttrackIT_Project.Data
 
         public DbSet<FasttrackIT_Project.Models.Client> Client { get; set; }
 
-        public DbSet<FasttrackIT_Project.Models.HeaderInfo> HeaderInfo { get; set; }
+        public DbSet<FasttrackIT_Project.Models.OfferHeader> OfferHeader { get; set; }
 
-        public DbSet<FasttrackIT_Project.Models.ReceiptDetails> ReceiptDetails { get; set; }
+        public DbSet<FasttrackIT_Project.Models.OfferDetail> OfferDetail { get; set; }
     }
 }

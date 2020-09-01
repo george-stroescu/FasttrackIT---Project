@@ -1,5 +1,3 @@
-using System;
-
 namespace FasttrackIT_Project.Models
 {
     public class ErrorViewModel

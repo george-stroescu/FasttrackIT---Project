@@ -10,23 +10,22 @@ using FasttrackIT_Project.Models;
 
 namespace FasttrackIT_Project.Controllers
 {
-    public class ReceiptsDetailsController : Controller
+    public class OfferHeadersController : Controller
     {
         private readonly ProjectDbContext _context;
 
-        public ReceiptsDetailsController(ProjectDbContext context)
+        public OfferHeadersController(ProjectDbContext context)
         {
             _context = context;
         }
 
-        // GET: ReceiptsDetails
+        // GET: OfferHeaders
         public async Task<IActionResult> Index()
         {
-            var projectDbContext = _context.ReceiptDetails.Include(r => r.Product);
-            return View(await projectDbContext.ToListAsync());
+            return View(await _context.OfferHeader.ToListAsync());
         }
 
-        // GET: ReceiptsDetails/Details/5
+        // GET: OfferHeaders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace FasttrackIT_Project.Controllers
                 return NotFound();
             }
 
-            var receiptDetails = await _context.ReceiptDetails
-                .Include(r => r.Product)
+            var offerHeader = await _context.OfferHeader
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (receiptDetails == null)
+            if (offerHeader == null)
             {
                 return NotFound();
             }
 
-            return View(receiptDetails);
+            return View(offerHeader);
         }
 
-        // GET: ReceiptsDetails/Create
+        // GET: OfferHeaders/Create
         public IActionResult Create()
         {
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "ProductName");
             return View();
         }
 
-        // POST: ReceiptsDetails/Create
+        // POST: OfferHeaders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,HeaderInfoId,ProductId")] ReceiptDetails receiptDetails)
+        public async Task<IActionResult> Create([Bind("Id,Date,Discount,ExpiryDate")] OfferHeader offerHeader)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(receiptDetails);
+                _context.Add(offerHeader);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "ProductName", receiptDetails.ProductId);
-            return View(receiptDetails);
+            return View(offerHeader);
         }
 
-        // GET: ReceiptsDetails/Edit/5
+        // GET: OfferHeaders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace FasttrackIT_Project.Controllers
                 return NotFound();
             }
 
-            var receiptDetails = await _context.ReceiptDetails.FindAsync(id);
-            if (receiptDetails == null)
+            var offerHeader = await _context.OfferHeader.FindAsync(id);
+            if (offerHeader == null)
             {
                 return NotFound();
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "ProductName", receiptDetails.ProductId);
-            return View(receiptDetails);
+            return View(offerHeader);
         }
 
-        // POST: ReceiptsDetails/Edit/5
+        // POST: OfferHeaders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,HeaderInfoId,ProductId")] ReceiptDetails receiptDetails)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Discount,ExpiryDate")] OfferHeader offerHeader)
         {
-            if (id != receiptDetails.Id)
+            if (id != offerHeader.Id)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace FasttrackIT_Project.Controllers
             {
                 try
                 {
-                    _context.Update(receiptDetails);
+                    _context.Update(offerHeader);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReceiptDetailsExists(receiptDetails.Id))
+                    if (!OfferHeaderExists(offerHeader.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace FasttrackIT_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "ProductName", receiptDetails.ProductId);
-            return View(receiptDetails);
+            return View(offerHeader);
         }
 
-        // GET: ReceiptsDetails/Delete/5
+        // GET: OfferHeaders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +124,30 @@ namespace FasttrackIT_Project.Controllers
                 return NotFound();
             }
 
-            var receiptDetails = await _context.ReceiptDetails
-                .Include(r => r.Product)
+            var offerHeader = await _context.OfferHeader
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (receiptDetails == null)
+            if (offerHeader == null)
             {
                 return NotFound();
             }
 
-            return View(receiptDetails);
+            return View(offerHeader);
         }
 
-        // POST: ReceiptsDetails/Delete/5
+        // POST: OfferHeaders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var receiptDetails = await _context.ReceiptDetails.FindAsync(id);
-            _context.ReceiptDetails.Remove(receiptDetails);
+            var offerHeader = await _context.OfferHeader.FindAsync(id);
+            _context.OfferHeader.Remove(offerHeader);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReceiptDetailsExists(int id)
+        private bool OfferHeaderExists(int id)
         {
-            return _context.ReceiptDetails.Any(e => e.Id == id);
+            return _context.OfferHeader.Any(e => e.Id == id);
         }
     }
 }
