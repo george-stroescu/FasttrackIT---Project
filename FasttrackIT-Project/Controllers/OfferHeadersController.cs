@@ -46,6 +46,19 @@ namespace FasttrackIT_Project.Controllers
         // GET: OfferHeaders/Create
         public IActionResult Create()
         {
+            ViewBag.Clients = new List<Client>()
+            {
+                new Client() { Id = 1, ClientName = "Client 1" },
+                new Client() { Id = 2, ClientName = "Client 2" }
+            };
+
+            //ViewBag.Clients = _context.Client.Select(c =>
+            //                      new SelectListItem
+            //                      {
+            //                          Value = c.Id.ToString(),
+            //                          Text = c.ClientName
+            //                      }).ToList();
+
             return View();
         }
 
@@ -54,7 +67,7 @@ namespace FasttrackIT_Project.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Discount,ExpiryDate")] OfferHeader offerHeader)
+        public async Task<IActionResult> Create([Bind("Id,Date,Discount,ExpiryDate,Client")] OfferHeader offerHeader)
         {
             if (ModelState.IsValid)
             {
