@@ -44,20 +44,10 @@ namespace FasttrackIT_Project.Controllers
         }
 
         // GET: OfferHeaders/Create
+        [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Clients = new List<Client>()
-            {
-                new Client() { Id = 1, ClientName = "Client 1" },
-                new Client() { Id = 2, ClientName = "Client 2" }
-            };
-
-            //ViewBag.Clients = _context.Client.Select(c =>
-            //                      new SelectListItem
-            //                      {
-            //                          Value = c.Id.ToString(),
-            //                          Text = c.ClientName
-            //                      }).ToList();
+            ViewBag.Clients = _context.Client.ToList();
 
             return View();
         }
